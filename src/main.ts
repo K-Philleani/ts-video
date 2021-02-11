@@ -7,6 +7,15 @@ for (let i=0; i<listItem.length; i++) {
   listItem[i].addEventListener('click', function() {
     let url:string = this.dataset.url
     let title:string = this.dataset.title
-    popup({})
+    popup({
+      width: '880px',
+      height: '556px',
+      title,
+      position: 'center',
+      mask: true,
+      content: (elem) => {
+        console.log(elem)
+      }
+    })
   })
 }
