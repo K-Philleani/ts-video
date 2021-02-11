@@ -1,3 +1,7 @@
+
+// let styles = require('./index.css')
+import styled from './index.css'
+
 interface Ipopup {
   width?: string
   height?: string
@@ -36,7 +40,7 @@ class Popup implements Icomponent{
   template() {
     this.tempContainer = document.createElement('div')
     this.tempContainer.innerHTML = `
-      <h1>Hello</h1>
+      <h1 class="${styled.popup}">Hello</h1>
     `
     document.body.appendChild(this.tempContainer)
     console.log(111)
