@@ -15,10 +15,10 @@ for (let i=0; i<listItem.length; i++) {
       position: 'center',
       mask: true,
       content: (elem) => {
-        console.log(elem)
         video({
           url,
-          elem
+          elem,
+          autoplay: true
         })
       }
     })

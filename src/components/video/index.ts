@@ -76,19 +76,32 @@ class Video implements Icomponent{
     let videoTimes = this.tempContainer.querySelectorAll(`.${styled.default['video-time']} span`)
     let timer
     let videoFull = this.tempContainer.querySelector(`.${styled.default['video-full']} i`)
+    let videoProgress = this.tempContainer.querySelectorAll(`.${styled.default['video-progress']} div`)
+    let videoVolume = this.tempContainer.querySelectorAll(`.${styled.default['video-volprogress']} div`)
+
+    videoContent.volume = 0.5
+
+    if (this.settings.autoplay) {
+      timer = setInterval(playing, 1000)
+      videoContent.play()
+    }
+
+    this.tempContainer.addEventListener('mouseenter', function() {
+      videoControls.style.bottom = 0
+    })
+    this.tempContainer.addEventListener('mouseleave', function () {
+      videoControls.style.bottom = '-50px'
+    })
 
     // 视频是否加载完毕
     videoContent.addEventListener('canplay',() => {
-      console.log('canplay')
       videoTimes[1].innerHTML = formatTime(videoContent.duration)
     })
     videoContent.addEventListener('play', () => {
-      console.log('play')
       videoPlay.className = 'icon iconfont icon-zantingtingzhi'
       timer = setInterval(playing, 1000)
     })
     videoContent.addEventListener('pause', () => {
-      console.log('pause')
       videoPlay.className = 'icon iconfont icon-bofang'
       clearInterval(timer)
     })
@@ -100,16 +113,63 @@ class Video implements Icomponent{
         videoContent.pause()
       }
     })
+
+    videoProgress[2].addEventListener('mousedown', function(event: MouseEvent) {
+      let downX = event.pageX
+      let downL = this.offsetLeft
+      document.onmousemove = (event: MouseEvent) => {
+        let scale = (event.pageX - downX + downL + 8) / this.parentNode.offsetWidth
+        if (scale < 0) {
+          scale = 0
+        } else if (scale > 1) {
+          scale = 1
+        }
+        videoProgress[0].style.width = scale * 100 + "%"
+        videoProgress[1].style.width = scale * 100 + "%"
+        this.style.left = scale * 100 + "%"
+        videoContent.currentTime = scale * videoContent.duration
+      }
+      document.onmouseup = () => {
+        document.onmousemove = document.onmouseup = null
+      }
+      event.preventDefault()
+    })
     
     // 全屏
     videoFull.addEventListener('click', () => {
       videoContent.requestFullscreen()
     })
 
+    videoVolume[1].addEventListener('mousedown', function (event: MouseEvent) {
+      let downX = event.pageX
+      let downL = this.offsetLeft
+      document.onmousemove = (event: MouseEvent) => {
+        let scale = (event.pageX - downX + downL + 8) / this.parentNode.offsetWidth
+        if (scale < 0) {
+          scale = 0
+        } else if (scale > 1) {
+          scale = 1
+        }
+        videoVolume[0].style.width = scale * 100 + "%"
+        this.style.left = scale * 100 + "%"
+        videoContent.volume = scale
+      }
+      document.onmouseup = () => {
+        document.onmousemove = document.onmouseup = null
+      }
+      event.preventDefault()
+    })
+
     // 播放进度
     function playing() {
+      let scale = videoContent.currentTime / videoContent.duration
+      let scaleSuc = videoContent.buffered.end(0) / videoContent.duration
       videoTimes[0].innerHTML = formatTime(videoContent.currentTime)
+      videoProgress[0].style.width = scale * 100 + "%"
+      videoProgress[1].style.width = scaleSuc * 100 + "%"
+      videoProgress[2].style.left = scale * 100 + "%"
     }
+ 
 
     function formatTime(time: number): string {
       time = Math.round(time)

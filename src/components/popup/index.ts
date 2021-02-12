@@ -54,7 +54,6 @@ class Popup implements Icomponent{
       <div class="${styles.default['popup-content']}"></div>
     `
     document.body.appendChild(this.tempContainer)
-    console.log(styles)
     if (this.settings.position === 'left') {
       this.tempContainer.style.left = 0
       this.tempContainer.style.top = (window.innerHeight - this.tempContainer.offsetHeight) / 2 + 'px'
