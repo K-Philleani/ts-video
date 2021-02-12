@@ -73,17 +73,23 @@ class Video implements Icomponent{
     let videoContent = this.tempContainer.querySelector(`.${styled.default['video-content']}`)
     let videoControls = this.tempContainer.querySelector(`.${styled.default['video-controls']}`)
     let videoPlay = this.tempContainer.querySelector(`.${styled.default['video-controls']} i`)
+    let videoTimes = this.tempContainer.querySelectorAll(`.${styled.default['video-time']} span`)
+    let timer
 
+    // 视频是否加载完毕
     videoContent.addEventListener('canplay',() => {
       console.log('canplay')
+      videoTimes[1].innerHTML = formatTime(videoContent.duration)
     })
     videoContent.addEventListener('play', () => {
       console.log('play')
       videoPlay.className = 'icon iconfont icon-zantingtingzhi'
+      timer = setInterval(playing, 1000)
     })
     videoContent.addEventListener('pause', () => {
       console.log('pause')
       videoPlay.className = 'icon iconfont icon-bofang'
+      clearInterval(timer)
     })
     videoPlay.addEventListener('click', () => {
       if (videoContent.paused) {
@@ -92,6 +98,25 @@ class Video implements Icomponent{
         videoContent.pause()
       }
     })
+
+    // 播放进度
+    function playing() {
+      videoTimes[0].innerHTML = formatTime(videoContent.currentTime)
+    }
+
+    function formatTime(time: number): string {
+      time = Math.round(time)
+      let min = Math.floor(time / 60)
+      let sec = time % 60
+      return setZero(min) + ":" + setZero(sec)
+    }
+
+    function setZero(time: number): string {
+      if (time < 10) {
+        return '0' + time
+      }
+      return String(time)
+    }
   }
 
 }
