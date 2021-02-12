@@ -70,7 +70,28 @@ class Video implements Icomponent{
     
   }
   handle() {
+    let videoContent = this.tempContainer.querySelector(`.${styled.default['video-content']}`)
+    let videoControls = this.tempContainer.querySelector(`.${styled.default['video-controls']}`)
+    let videoPlay = this.tempContainer.querySelector(`.${styled.default['video-controls']} i`)
 
+    videoContent.addEventListener('canplay',() => {
+      console.log('canplay')
+    })
+    videoContent.addEventListener('play', () => {
+      console.log('play')
+      videoPlay.className = 'icon iconfont icon-zantingtingzhi'
+    })
+    videoContent.addEventListener('pause', () => {
+      console.log('pause')
+      videoPlay.className = 'icon iconfont icon-bofang'
+    })
+    videoPlay.addEventListener('click', () => {
+      if (videoContent.paused) {
+        videoContent.play()
+      } else {
+        videoContent.pause()
+      }
+    })
   }
 
 }
