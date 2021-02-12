@@ -1,5 +1,6 @@
 import './index.css'
 import popup from './components/popup/index'
+import video from './components/video/index'
 
 let listItem: NodeListOf<Element> = document.querySelectorAll('#list li')
 
@@ -15,6 +16,10 @@ for (let i=0; i<listItem.length; i++) {
       mask: true,
       content: (elem) => {
         console.log(elem)
+        video({
+          url,
+          elem
+        })
       }
     })
   })
