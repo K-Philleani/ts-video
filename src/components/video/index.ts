@@ -45,13 +45,13 @@ class Video implements Icomponent{
           <div class="${styled.default['video-progress-bar']}"></div>
         </div>
         <div class="${styled.default['video-play']}">
-          <i class="icon iconfont icon-bofang"></i>
+          <i class="iconfont icon-bofang"></i>
         </div>
         <div class="${styled.default['video-time']}">
           <span>00:00</span> / <span>00:00</span>
         </div>
         <div class="${styled.default['video-full']}">
-          <i class="icon iconfont icon-quanping"></i>
+          <i class="icon iconfont icon-quanping"></i>          
         </div>
         <div class="${styled.default['video-volume']}">
           <i class="icon iconfont icon-yinliang"></i>
